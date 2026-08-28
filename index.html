@@ -243,24 +243,19 @@
 const certificateLink = "МОЄ_ПОСИЛАННЯ";
 
 // Аудіофайли (завантаж їх у ту саму папку, де лежить index.html):
-//   background-music.mp3   — тиха фонова мелодія (циклічна)
 //   open-gift.mp3          — короткий дзвінкий звук (екран 1)
 //   click-wish.mp3         — короткий магічний клік (екран 2)
 //   happy-birthday.mp3     — святковий інструментальний фрагмент (екран 3)
 const SOUND = {
-  bg: new Audio('background-music.mp3'),
   open: new Audio('open-gift.mp3'),
   click: new Audio('click-wish.mp3'),
   hbd: new Audio('happy-birthday.mp3')
 };
-SOUND.bg.loop = true;
-SOUND.bg.volume = 0.18;
 SOUND.open.volume = 0.55;
 SOUND.click.volume = 0.55;
 SOUND.hbd.volume = 0.55;
 
 let muted = false;
-let bgStarted = false;
 let currentEffect = null;
 
 /* Кожен новий короткий ефект зупиняє попередній, щоб вони не накладались одне на одне.
@@ -299,22 +294,12 @@ function stopCurrentEffect(){
   }
 }
 
-function startBackgroundMusic(){
-  if(bgStarted || muted) return;
-  bgStarted = true;
-  SOUND.bg.currentTime = 0;
-  SOUND.bg.play().catch(()=>{});
-}
-
 const muteBtn = document.getElementById('muteBtn');
 muteBtn.addEventListener('click', () => {
   muted = !muted;
   muteBtn.textContent = muted ? '🔇' : '🔊';
   if(muted){
-    SOUND.bg.pause();
     stopCurrentEffect();
-  } else if(bgStarted){
-    SOUND.bg.play().catch(()=>{});
   }
 });
 
@@ -361,8 +346,6 @@ openBtn.addEventListener('click', () => {
   playEffect(SOUND.open, 1400);
   glow1.classList.add('active');
   spawnSparks(sparkLayer1, 8);
-
-  startBackgroundMusic();
 
   setTimeout(() => { goTo(2); }, 1100);
 });
@@ -419,14 +402,10 @@ realOpenBtn.addEventListener('click', () => {
   glow3.classList.add('active');
   spawnSparks(sparkLayer3, 14);
 
-  // Приглушуємо фонову музику, щоб було добре чути Happy Birthday
-  const prevVolume = SOUND.bg.volume;
-  SOUND.bg.volume = 0.05;
   const hbdClone = playEffect(SOUND.hbd, 8000); // максимум 8 секунд, за ТЗ
   currentEffect = null; // не даємо переходу на екран 4 обірвати цю мелодію
   setTimeout(() => {
     if(hbdClone){ hbdClone.pause(); }
-    SOUND.bg.volume = prevVolume;
   }, 8000);
 
   setTimeout(() => { goTo(4); }, 1300);
