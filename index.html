@@ -67,14 +67,14 @@
   /* ---------- ЕКРАН 2: кола 01/02/03 (власна графіка, щоб можна було перемикати) ---------- */
   .num-mask{
     position:absolute;
-    left: 5%; right: 5%; top: 29.5%; height: 12%;
+    width: 18.5%; aspect-ratio: 1;
+    top: 31%;
+    border-radius: 50%;
     background: #f7f1e5;
   }
-  .num-line{
-    position:absolute;
-    left: 20%; right: 20%; top: 35.3%; height: 1px;
-    background: rgba(169,131,47,0.35);
-  }
+  .num-mask[data-m="0"]{ left: 8.7%; }
+  .num-mask[data-m="1"]{ left: 41.2%; }
+  .num-mask[data-m="2"]{ left: 73.7%; }
   .num-circle{
     position:absolute;
     width: 15%; aspect-ratio: 1;
@@ -194,8 +194,9 @@
     <div class="frame">
       <img class="bg" src="img/screen2.jpg" alt="Для тебе — кілька слів від серця">
 
-      <div class="num-mask"></div>
-      <div class="num-line"></div>
+      <div class="num-mask" data-m="0"></div>
+      <div class="num-mask" data-m="1"></div>
+      <div class="num-mask" data-m="2"></div>
       <button class="num-circle active" data-i="0" aria-label="Побажання 1">01</button>
       <button class="num-circle inactive" data-i="1" aria-label="Побажання 2">02</button>
       <button class="num-circle inactive" data-i="2" aria-label="Побажання 3">03</button>
@@ -343,11 +344,11 @@ openBtn.addEventListener('click', () => {
   if(openBtnLocked) return;
   openBtnLocked = true;
 
-  playEffect(SOUND.open, 1400);
+  playEffect(SOUND.open, 2200);
   glow1.classList.add('active');
   spawnSparks(sparkLayer1, 8);
 
-  setTimeout(() => { goTo(2); }, 1100);
+  setTimeout(() => { goTo(2); }, 1900);
 });
 
 /* ---------- ЕКРАН 2: побажання ---------- */
@@ -365,7 +366,7 @@ numBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     if(wishLocked) return;
     wishLocked = true;
-    playEffect(SOUND.click, 500);
+    playEffect(SOUND.click, 900);
 
     numBtns.forEach(b => {
       b.classList.remove('active');
@@ -402,11 +403,8 @@ realOpenBtn.addEventListener('click', () => {
   glow3.classList.add('active');
   spawnSparks(sparkLayer3, 14);
 
-  const hbdClone = playEffect(SOUND.hbd, 8000); // максимум 8 секунд, за ТЗ
+  playEffect(SOUND.hbd); // без обмеження — дограє до кінця
   currentEffect = null; // не даємо переходу на екран 4 обірвати цю мелодію
-  setTimeout(() => {
-    if(hbdClone){ hbdClone.pause(); }
-  }, 8000);
 
   setTimeout(() => { goTo(4); }, 1300);
 });
