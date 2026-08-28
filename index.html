@@ -67,7 +67,7 @@
   /* ---------- ЕКРАН 2: кола 01/02/03 (власна графіка, щоб можна було перемикати) ---------- */
   .num-mask{
     position:absolute;
-    left: 7%; right: 7%; top: 31%; height: 9%;
+    left: 5%; right: 5%; top: 29.5%; height: 12%;
     background: #f7f1e5;
   }
   .num-line{
@@ -86,20 +86,22 @@
     font-weight:600;
     font-size: clamp(0.95rem, 4vw, 1.15rem);
     transition: background .3s ease, color .3s ease, border-color .3s ease;
+    box-shadow: 0 3px 8px rgba(169,131,47,0.18);
   }
   .num-circle[data-i="0"]{ left: 10%; }
   .num-circle[data-i="1"]{ left: 42.5%; }
   .num-circle[data-i="2"]{ left: 75%; }
   .num-circle.inactive{
     background: #fbf3e8;
-    border: 1.5px solid rgba(169,131,47,0.55);
+    border: 1.5px solid rgba(169,131,47,0.5);
     color: #5a4632;
+    box-shadow: none;
   }
   .num-circle.active{
-    background: linear-gradient(160deg, #b8924f, #97753a);
-    border: 1.5px solid #97753a;
+    background: linear-gradient(160deg, #d9bb84, #c9a24a);
+    border: 1.5px solid #c9a24a;
     color: #fffaf0;
-    box-shadow: 0 6px 14px rgba(151,117,58,0.35);
+    box-shadow: 0 5px 12px rgba(201,162,74,0.3);
   }
 
   /* ---------- ЕКРАН 2: маска й текст побажання ---------- */
