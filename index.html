@@ -259,13 +259,32 @@ SOUND.hbd.volume = 0.55;
 
 let muted = false;
 let bgStarted = false;
+let currentEffect = null;
 
-function playOnce(audio){
+/* Кожен новий короткий ефект зупиняє попередній, щоб вони не накладались одне на одне */
+function playEffect(audio){
+  if(currentEffect){
+    currentEffect.pause();
+    currentEffect.currentTime = 0;
+    currentEffect = null;
+  }
   if(muted) return;
   const clone = audio.cloneNode(true);
   clone.volume = audio.volume;
+  currentEffect = clone;
   clone.play().catch(()=>{});
-  clone.addEventListener('ended', () => clone.remove());
+  clone.addEventListener('ended', () => {
+    if(currentEffect === clone) currentEffect = null;
+    clone.remove();
+  });
+}
+
+function stopCurrentEffect(){
+  if(currentEffect){
+    currentEffect.pause();
+    currentEffect.currentTime = 0;
+    currentEffect = null;
+  }
 }
 
 function startBackgroundMusic(){
@@ -281,6 +300,7 @@ muteBtn.addEventListener('click', () => {
   muteBtn.textContent = muted ? '🔇' : '🔊';
   if(muted){
     SOUND.bg.pause();
+    stopCurrentEffect();
   } else if(bgStarted){
     SOUND.bg.play().catch(()=>{});
   }
@@ -294,6 +314,7 @@ const screens = {
   4: document.getElementById('screen4')
 };
 function goTo(n){
+  stopCurrentEffect();
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[n].classList.add('active');
 }
@@ -325,7 +346,7 @@ openBtn.addEventListener('click', () => {
   if(openBtnLocked) return;
   openBtnLocked = true;
 
-  playOnce(SOUND.open);
+  playEffect(SOUND.open);
   glow1.classList.add('active');
   spawnSparks(sparkLayer1, 8);
 
@@ -349,7 +370,7 @@ numBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     if(wishLocked) return;
     wishLocked = true;
-    playOnce(SOUND.click);
+    playEffect(SOUND.click);
 
     numBtns.forEach(b => {
       b.classList.remove('active');
@@ -389,7 +410,8 @@ realOpenBtn.addEventListener('click', () => {
   // Приглушуємо фонову музику, щоб було добре чути Happy Birthday
   const prevVolume = SOUND.bg.volume;
   SOUND.bg.volume = 0.05;
-  playOnce(SOUND.hbd);
+  playEffect(SOUND.hbd);
+  currentEffect = null; // не даємо переходу на екран 4 обірвати цю мелодію
   setTimeout(() => { SOUND.bg.volume = prevVolume; }, 6000);
 
   setTimeout(() => { goTo(4); }, 1300);
