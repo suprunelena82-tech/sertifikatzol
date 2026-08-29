@@ -64,21 +64,16 @@
   }
   .hit-btn:active{ transform: scale(0.97); }
 
-  /* ---------- ЕКРАН 2: кола 01/02/03 (власна графіка, щоб можна було перемикати) ---------- */
-  .num-mask{
+  /* ---------- ЕКРАН 2: кола 01/02/03 (повністю власна графіка) ---------- */
+  .num-line{
     position:absolute;
-    width: 18.5%; aspect-ratio: 1;
-    top: 31%;
-    border-radius: 50%;
-    background: #f7f1e5;
+    left: 20%; right: 20%; top: 40.5%; height: 1px;
+    background: rgba(169,131,47,0.35);
   }
-  .num-mask[data-m="0"]{ left: 8.7%; }
-  .num-mask[data-m="1"]{ left: 41.2%; }
-  .num-mask[data-m="2"]{ left: 73.7%; }
   .num-circle{
     position:absolute;
     width: 15%; aspect-ratio: 1;
-    top: 32.3%;
+    top: 37.5%;
     border-radius: 50%;
     border: none; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
@@ -194,9 +189,7 @@
     <div class="frame">
       <img class="bg" src="img/screen2.jpg" alt="Для тебе — кілька слів від серця">
 
-      <div class="num-mask" data-m="0"></div>
-      <div class="num-mask" data-m="1"></div>
-      <div class="num-mask" data-m="2"></div>
+      <div class="num-line"></div>
       <button class="num-circle active" data-i="0" aria-label="Побажання 1">01</button>
       <button class="num-circle inactive" data-i="1" aria-label="Побажання 2">02</button>
       <button class="num-circle inactive" data-i="2" aria-label="Побажання 3">03</button>
