@@ -65,15 +65,22 @@
   .hit-btn:active{ transform: scale(0.97); }
 
   /* ---------- ЕКРАН 2: кола 01/02/03 (повністю власна графіка) ---------- */
+  .top-heart{
+    position:absolute;
+    left:50%; top: 30.5%;
+    transform: translate(-50%,-50%);
+    font-size: 1rem;
+    color: var(--gold, #c9a24a);
+  }
   .num-line{
     position:absolute;
-    left: 20%; right: 20%; top: 40.5%; height: 1px;
+    left: 20%; right: 20%; top: 44%; height: 1px;
     background: rgba(169,131,47,0.35);
   }
   .num-circle{
     position:absolute;
     width: 15%; aspect-ratio: 1;
-    top: 37.5%;
+    top: 41%;
     border-radius: 50%;
     border: none; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
@@ -337,18 +344,18 @@ openBtn.addEventListener('click', () => {
   if(openBtnLocked) return;
   openBtnLocked = true;
 
-  playEffect(SOUND.open, 2200);
+  playEffect(SOUND.open, 4700);
   glow1.classList.add('active');
   spawnSparks(sparkLayer1, 8);
 
-  setTimeout(() => { goTo(2); }, 1900);
+  setTimeout(() => { goTo(2); }, 4500);
 });
 
 /* ---------- ЕКРАН 2: побажання ---------- */
 const wishes = [
   'Бажаю тобі завжди обирати себе, свої мрії та своє щастя…',
   'Нехай у твоєму житті буде більше моментів, які хочеться запам\u2019ятати назавжди…',
-  'І нехай кожна твоя мрія знаходить шлях до здійснення. Будь щаслива! ❤️'
+  'І нехай кожна твоя мрія знаходить шлях до здійснення. Будь\u00A0щаслива! ❤️'
 ];
 const wishText = document.getElementById('wishText');
 const wishHeart = document.getElementById('wishHeart');
