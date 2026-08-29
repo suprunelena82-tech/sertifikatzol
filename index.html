@@ -43,10 +43,8 @@
      незалежно від розміру екрана телефона/компʼютера. */
   .frame{
     position:relative;
-    height:100vh;
-    width: calc(100vh * 0.667);
-    max-width: 100vw;
-    max-height: calc(100vw * 1.5);
+    width: min(100vw, calc(100vh * 0.6673));
+    aspect-ratio: 0.6673;
     margin: 0 auto;
   }
   .frame img.bg{
