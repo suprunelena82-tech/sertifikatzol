@@ -359,33 +359,51 @@ const wishText = document.getElementById('wishText');
 const wishHeart = document.getElementById('wishHeart');
 const numBtns = document.querySelectorAll('.num-circle');
 let wishLocked = false;
+let currentWish = 0; // яке побажання зараз показано (0,1,2)
 
+function showWish(index){
+  numBtns.forEach(b => {
+    b.classList.remove('active');
+    b.classList.add('inactive');
+  });
+  const targetBtn = document.querySelector('.num-circle[data-i="'+index+'"]');
+  targetBtn.classList.remove('inactive');
+  targetBtn.classList.add('active');
+
+  wishText.classList.remove('show');
+  wishHeart.classList.remove('show');
+  setTimeout(() => {
+    wishText.textContent = wishes[index];
+    wishText.classList.add('show');
+    wishHeart.classList.add('show');
+    wishLocked = false;
+  }, 220);
+}
+
+/* Клік прямо на кружечок — одразу перейти до цього побажання */
 numBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     if(wishLocked) return;
     wishLocked = true;
     playEffect(SOUND.click, 900);
-
-    numBtns.forEach(b => {
-      b.classList.remove('active');
-      b.classList.add('inactive');
-    });
-    btn.classList.remove('inactive');
-    btn.classList.add('active');
-
-    wishText.classList.remove('show');
-    wishHeart.classList.remove('show');
-    setTimeout(() => {
-      wishText.textContent = wishes[+btn.dataset.i];
-      wishText.classList.add('show');
-      wishHeart.classList.add('show');
-      wishLocked = false;
-    }, 220);
+    currentWish = +btn.dataset.i;
+    showWish(currentWish);
   });
 });
 
+/* Кнопка "Далі": спочатку гортає побажання 1→2→3,
+   і лише після третього — переходить на екран 3 */
 document.getElementById('nextBtn').addEventListener('click', () => {
-  goTo(3);
+  if(wishLocked) return;
+
+  if(currentWish < wishes.length - 1){
+    wishLocked = true;
+    playEffect(SOUND.click, 900);
+    currentWish++;
+    showWish(currentWish);
+  } else {
+    goTo(3);
+  }
 });
 
 /* ---------- ЕКРАН 3: справжній подарунок ---------- */
